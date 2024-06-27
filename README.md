@@ -50,10 +50,9 @@ This project is a basic web application featuring a chatbot capable of answering
 1. Clone the repository:
    ```sh
    git clone https://github.com/MuhammadC11/starlight-chatbot
+
+2. Clone the repository:
+   ```sh
    cd chatbot
    npm i
-
-### Opening the webpage
-  cd chatbot
-  npm i
-  npm run dev
+   npm run dev
