@@ -3,21 +3,20 @@
 ## Project Overview
 
 ### Title: 
-Simple AI-Powered Chatbot
+AI-Powered Chatbot for Landmarks
 
 ### Description:
-This project is a basic web application featuring a chatbot capable of answering generic questions about famous landmarks. The goal is to provide users with information on various landmarks through an intuitive chat interface.
+This project is a basic web application featuring a chatbot capable of answering generic questions about famous landmarks using the Gemini API. The goal is to provide users with information on various landmarks through an intuitive chat interface.
 
 ### Time Commitment:
 3-4 hours
 
-## Requirements
+## What It Looks Like Under The Hood
 
 ### Frontend:
-- Built using React.
+- Built using Vite templating for React
 - Provides a basic chat interface for users to type questions.
 - Displays chatbot responses in a conversational format.
-- Minimal styling and no deployment necessary.
 
 ### Backend:
 - Implemented using Node.js and Express.
@@ -31,10 +30,9 @@ This project is a basic web application featuring a chatbot capable of answering
   - Historical significance (e.g., "Why is the Great Wall of China famous?")
   - Visitor information (e.g., "What are the visiting hours for the Statue of Liberty?")
   - Trivia (e.g., "How tall is the Burj Khalifa?")
+  - Only answers questions about landmarks and places
+  - Follow up questions are allowed
 
-### Integration:
-- Frontend and backend are fully integrated.
-- User questions are sent from the frontend to the backend, and responses are displayed back in the chat interface.
 
 ### Tools:
 - Frontend: React
@@ -45,11 +43,17 @@ This project is a basic web application featuring a chatbot capable of answering
 ## Getting Started
 
 ### Prerequisites
-- Node.js
+- Node.js version 21 at least
 - npm (Node Package Manager)
 
 ### Installation
 1. Clone the repository:
    ```sh
-   git clone https://github.com/yourusername/simple-ai-chatbot.git
-   cd simple-ai-chatbot
+   git clone https://github.com/MuhammadC11/starlight-chatbot
+   cd chatbot
+   npm i
+
+### Opening the webpage
+  cd chatbot
+  npm i
+  npm run dev
