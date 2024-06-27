@@ -1,7 +1,6 @@
-// src/Chat.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../styles/Chat.css"; // Assuming you have Chat.css for styling
+import "../styles/Chat.css";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -10,37 +9,59 @@ const Chat = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       const response = await axios.get("http://localhost:5001/messages");
-      setMessages(response.data);
+      const uniqueMessages = filterUniqueMessages(response.data);
+      setMessages(uniqueMessages);
     };
 
     fetchMessages();
   }, []);
 
+  const filterUniqueMessages = (messages) => {
+    const seen = new Set();
+    return messages.filter((msg) => {
+      const text = msg.parts.map((part) => part.text).join("");
+      if (seen.has(text)) {
+        return false;
+      } else {
+        seen.add(text);
+        return true;
+      }
+    });
+  };
+
   const sendMessage = async () => {
     const response = await axios.post("http://localhost:5001/chat", {
       message: input,
     });
-    setMessages(response.data.messages);
+    const uniqueMessages = filterUniqueMessages(response.data.messages);
+    console.log(uniqueMessages);
+    setMessages(uniqueMessages);
     setInput("");
+  };
+
+  const startNewChat = async () => {
+    setMessages([]);
+    await axios.post("http://localhost:5001/chat", { message: "" }); // Send a request to the chat endpoint to reset the chat
   };
 
   return (
     <div className="chat-container">
-      <div>
-        {messages.map((msg, index) => (
-          <div key={index} className="message">
-            {msg.user && (
-              <p>
-                <strong>You:</strong> {msg.user}
-              </p>
-            )}
-            {msg.bot && (
-              <p>
-                <strong>Bot:</strong> {msg.bot}
-              </p>
-            )}
-          </div>
-        ))}
+      <div className="messages">
+        {messages.slice(1).map(
+          (
+            msg,
+            index // Start from the second item
+          ) => (
+            <div key={index} className={`message ${msg.role}`}>
+              {msg.parts.map((part, partIndex) => (
+                <p key={partIndex}>
+                  <strong>{msg.role === "user" ? "You" : "Bot"}:</strong>{" "}
+                  {part.text}
+                </p>
+              ))}
+            </div>
+          )
+        )}
       </div>
       <div className="input-container">
         <input
@@ -50,6 +71,7 @@ const Chat = () => {
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         />
         <button onClick={sendMessage}>Send</button>
+        <button onClick={startNewChat}>New Chat</button>
       </div>
     </div>
   );
