@@ -30,24 +30,33 @@ const Chat = () => {
   };
 
   const sendMessage = async () => {
-    const response = await axios.post("http://localhost:5001/chat", {
-      message: input,
-    });
-    const uniqueMessages = filterUniqueMessages(response.data.messages);
-    setMessages(uniqueMessages);
-    setInput("");
+    try {
+      const response = await axios.post("http://localhost:5001/chat", {
+        message: input,
+      });
+      const uniqueMessages = filterUniqueMessages(response.data.messages);
+      console.log(uniqueMessages);
+      setMessages(uniqueMessages);
+    } catch (error) {
+      console.error("Failed to send message:", error);
+      // Optionally, handle the error in the UI, for example:
+      // setError("Failed to send message. Please try again later.");
+    } finally {
+      setInput(""); // Ensure input is cleared in both success and error cases
+    }
   };
 
   const startNewChat = async () => {
     setMessages([]);
-    await axios.post("http://localhost:5001/chat", { message: "" });
+    await axios.post("http://localhost:5001/chat", { message: "" }); // Send a request to the chat endpoint to reset the chat
   };
 
   return (
     <div className="chat-container">
       <div className="messages">
-        {messages.map((msg, index) => (
+        {messages.slice(1).map((msg, index) => (
           <div key={index} className={`message ${msg.role}`}>
+            <strong>{msg.role === "user" ? "You: " : "Bot: "}</strong>
             {msg.parts.map((part, partIndex) => (
               <p
                 key={partIndex}
