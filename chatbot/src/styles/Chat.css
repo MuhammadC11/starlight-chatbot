@@ -36,6 +36,7 @@
   background-color: #007bff;
   color: white;
   cursor: pointer;
+  margin-right: 20px;
 }
 
 .input-container button:hover {
