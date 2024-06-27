@@ -34,34 +34,30 @@ const Chat = () => {
       message: input,
     });
     const uniqueMessages = filterUniqueMessages(response.data.messages);
-    console.log(uniqueMessages);
     setMessages(uniqueMessages);
     setInput("");
   };
 
   const startNewChat = async () => {
     setMessages([]);
-    await axios.post("http://localhost:5001/chat", { message: "" }); // Send a request to the chat endpoint to reset the chat
+    await axios.post("http://localhost:5001/chat", { message: "" });
   };
 
   return (
     <div className="chat-container">
       <div className="messages">
-        {messages.slice(1).map(
-          (
-            msg,
-            index // Start from the second item
-          ) => (
-            <div key={index} className={`message ${msg.role}`}>
-              {msg.parts.map((part, partIndex) => (
-                <p key={partIndex}>
-                  <strong>{msg.role === "user" ? "You" : "Bot"}:</strong>{" "}
-                  {part.text}
-                </p>
-              ))}
-            </div>
-          )
-        )}
+        {messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.role}`}>
+            {msg.parts.map((part, partIndex) => (
+              <p
+                key={partIndex}
+                dangerouslySetInnerHTML={{
+                  __html: part.text.replace(/\n/g, "<br>"),
+                }}
+              ></p>
+            ))}
+          </div>
+        ))}
       </div>
       <div className="input-container">
         <input
