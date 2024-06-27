@@ -1,7 +1,7 @@
 // src/Chat.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./Chat.css"; // Assuming you have Chat.css for styling
+import "../styles/Chat.css"; // Assuming you have Chat.css for styling
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
